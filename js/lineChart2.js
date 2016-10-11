@@ -69,8 +69,6 @@ lineChartz.prototype.wrangleData = function(){
         vis.matchDayArray.push( vis.finishedFixture.filter(function(d){ return d.matchday == z+1;}));
     }
 
-    //console.log(vis.matchDayArray);
-
     // Initialize displayData array, list of objects with name of team as keys
     vis.displayData = vis.matchDayArray[0].map(awayTeams).concat(vis.matchDayArray[0].map(homeTeams))
                          .sort(function(a, b) {
@@ -165,15 +163,11 @@ lineChartz.prototype.wrangleData = function(){
         else { return 3}
     }
 
-    console.log(vis.displayData);
-
     vis.updateVis();
 }
 
 lineChartz.prototype.add_svg_info = function(id) {
     var vis = this;
-
-    console.log(vis.d);
 
     function getFixtureById (obj){
         return obj.unique_id == id;
@@ -183,9 +177,6 @@ lineChartz.prototype.add_svg_info = function(id) {
 
     var fixtureDate = new Date(vis.displayFixture.date);
     var simpleDateformat = d3.time.format("%B %e, %Y");
-
-    console.log(vis.displayFixture);
-    console.log(changeName(vis.displayFixture.homeTeamName));
 
     vis.svg_info.style("display","block");
     vis.svg_info.select("#infomatchday").text("Matchday: " + vis.displayFixture.matchday)
@@ -276,7 +267,7 @@ lineChartz.prototype.updateVis = function(){
         .attr("id",function(d){
             return (changeName(d.teamName).replace(/\s+/g, ''));
         })
-        .style("opacity",.6)
+        .style("opacity",.4)
         .style("stroke-width",3);
 
     vis.lines.enter().append("path").attr("class","firstline").transition().duration(500)
@@ -287,9 +278,35 @@ lineChartz.prototype.updateVis = function(){
             return maincolor(changeName(d.teamName));
         })
         .style("stroke-width",3)
-        .style("opacity",.6)
+        .style("opacity",.4)
         .attr("id", function(d){
             return(changeName(d.teamName).replace(/\s+/g, ''))
+        });
+
+    vis.lines
+        .on("click", function(d){
+            var active   = vis.line.active ? false : true;
+            if(active){
+                unhighlightTeam2(changeName(d.teamName));
+                console.log(changeName(d.teamName));
+            }
+            else{
+                highlightTeam2(changeName(d.teamName));
+            }
+            vis.line.active = active;
+        })
+        .on("mouseout", function(b){
+            unhighlightTeam(changeName(b.teamName));
+            vis.tip.classed("hidden", true);
+        })
+        .on("mouseover", function(d){
+            highlightTeam(changeName(d.teamName));
+            var mouse = d3.mouse(vis.svg.node()).map(function (d) {
+                return parseInt(d);
+            });
+            vis.tip.classed("hidden", false)
+                .attr("style", "left:" + (mouse[0] - 25) + "px;top:" + (mouse[1] + 40) + "px")
+                .html("<span style='color:blue'>" + d.teamName + "</span>");
         });
 
     vis.circlegroup2 = vis.svg.select("#circles").selectAll(".circlegroup").data(vis.displayData);
@@ -310,12 +327,13 @@ lineChartz.prototype.updateVis = function(){
             return("game" + d.unique_id)
         })
         .attr("class", function(d){
-            return changeName(d.self).replace(/\s+/g, '')
-        })
-        .style("opacity", 0.6);
+            return changeName(d.self).replace(/ +/g, '')
+        });
+
 
     vis.circlegroup2.enter().append("g").attr("class","circlegroup").selectAll("circle").data(function(d){ return d.matches;}).enter()
         .append("circle")
+        .attr("visibility","hidden")
         .attr("class","circle")
         .attr("stroke","black")
         .attr("stroke-width",".5px")
@@ -333,18 +351,17 @@ lineChartz.prototype.updateVis = function(){
             return("game" + d.unique_id.toString())
         })
         .attr("class", function(d){
-            return changeName(d.self).replace(/\s+/g, '')
-        })
-        .style("opacity", 0.6);
+            return changeName(d.self).replace(/ +/g, '')
+        });
 
-    vis.circlegroup2.on("mouseover", function(d,i){
+    vis.circlegroup2.selectAll("circle")
+        .on("mouseover", function(d,i){
             var mouse = d3.mouse(vis.svg.node()).map(function (d) {
                 return parseInt(d);
             });
             vis.tip.classed("hidden", false)
-                .attr("style", "left:" + (mouse[0] - 25) + "px;top:" + (mouse[1] + 40) + "px")
-                .html("<span style='color:blue'>" + d.teamName + "</span>");
-            //console.log(vis.circle);
+                .attr("style", "left:" + (mouse[0] + 35) + "px;top:" + (mouse[1] + 40) + "px")
+                .html("<span style='color:blue'>" + d[vis.selected] + "</span>");
         })
         .on("mouseout", function(d){
             vis.tip.classed("hidden", true);
@@ -353,48 +370,6 @@ lineChartz.prototype.updateVis = function(){
     vis.circlegroup2.selectAll("circle")
         .on("click", function(d){
             highlightGame(d.unique_id.toString());
-        });
-
-
-    vis.lines
-        .on("mouseover", function(d,i) {
-            var mouse = d3.mouse(vis.svg.node()).map(function (d) {
-                return parseInt(d);
-            });
-            vis.tip.classed("hidden", false)
-                .attr("style", "left:" + (mouse[0] - 25) + "px;top:" + (mouse[1] + 40) + "px")
-                .html("<span style='color:blue'>" + d.teamName + "</span>");
-        })
-        .on("mouseout", function(d, i) {
-            vis.tip.classed("hidden", true);
-        })
-        .on("click", function(d){
-            var active   = vis.line.active ? false : true;
-            if(active){ 
-                highlightTeam(changeName(d.teamName));
-                vis.svg.select("#" + changeName(d.teamName).replace(/ +/g, ""))
-                    .moveToFront();
-                vis.svg.selectAll("circle")
-                    .attr("r",0)
-                    .style("opacity",.1)
-                    .attr("stroke","black")
-                    .attr("stroke-width",".5px");
-                vis.svg.selectAll("." + changeName(d.teamName).replace(/\s+/g, ''))
-                    .attr("r",4)
-                    .style("opacity",1)
-                    .attr("stroke","black")
-                    .attr("stroke-width",".5px")
-                    .moveToFront();
-            }
-            else { 
-                unhighlightTeam(changeName(d.teamName));
-                vis.svg.selectAll("circle")
-                    .attr("r",4)
-                    .style("opacity",.6)
-                    .attr("stroke","black")
-                    .attr("stroke-width",".5px");
-            }
-            vis.line.active = active;
         });
 
     vis.lines.exit().transition().remove();

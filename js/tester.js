@@ -40,20 +40,39 @@ function highlightTeam(unformatted_team){
 
     var team = unformatted_team.replace(/ +/g, "");
 
-    intra_season.svg.selectAll(".firstline").transition()
-        .style("opacity", 0.1);
-
-    intra_season.svg.select("#"+team).transition()
+    intra_season.svg.selectAll("#"+team)
         .style("opacity", 1.0)
-
 }
 
 function unhighlightTeam(unformatted_team){
 
     var team = unformatted_team.replace(/ +/g, "");
 
-    intra_season.svg.selectAll(".firstline").transition()
-        .style("opacity", 0.1);
+    intra_season.svg.selectAll("#"+team)
+        .style("opacity", 0.4);
+}
+
+function unhighlightTeam2(unformatted_team){
+    var team = unformatted_team.replace(/ +/g, "");
+
+    intra_season.svg.selectAll(".firstline")
+        .attr("visibility", "hidden");
+
+    intra_season.svg.selectAll("#"+team)
+        .attr("visibility", "visible");
+
+    intra_season.svg.selectAll("."+team)
+        .attr("visibility", "visible");
+}
+
+function highlightTeam2(unformatted_team){
+    var team = unformatted_team.replace(/ +/g, "");
+
+    intra_season.svg.selectAll(".firstline")
+        .attr("visibility","visible");
+
+    intra_season.svg.selectAll("circle")
+        .attr("visibility","hidden");
 }
 
 var old_game_id= -1;
