@@ -1,6 +1,9 @@
+/**
+ * Created by John on 6/17/16.
+ */
 
 
-lineChartz = function(_parentElement, _data){
+lineChart = function(_parentElement, _data){
     this.parentElement = _parentElement;
     this.data = _data;
     this.displayData = [];
@@ -8,7 +11,7 @@ lineChartz = function(_parentElement, _data){
     this.initVis();
 }
 
-lineChartz.prototype.initVis = function() {
+lineChart.prototype.initVis = function() {
     var vis = this;
 
     vis.margin = {top: 17, right:40, bottom:33, left:30};
@@ -45,14 +48,15 @@ lineChartz.prototype.initVis = function() {
     vis.svg_info = d3.select("#gInfo");
 
     vis.svg.append("text")
-        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-        .attr("transform", "translate("+ (vis.width/2) +","+(vis.height+30)+")")  // centre below axis
+        .attr("id", "xlabel")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (vis.width/2) +","+(vis.height+30)+")")
         .text("Matchday");
 
     vis.wrangleData();
 }
 
-lineChartz.prototype.wrangleData = function(){
+lineChart.prototype.wrangleData = function(){
     var vis = this;
 
     // Array of arrays initialization
@@ -166,7 +170,7 @@ lineChartz.prototype.wrangleData = function(){
     vis.updateVis();
 }
 
-lineChartz.prototype.add_svg_info = function(id) {
+lineChart.prototype.add_svg_info = function(id) {
     var vis = this;
 
     function getFixtureById (obj){
@@ -206,7 +210,7 @@ lineChartz.prototype.add_svg_info = function(id) {
         .attr("fill", "red");
 }
 
-lineChartz.prototype.updateVis = function(){
+lineChart.prototype.updateVis = function(){
     var vis = this;
 
     var sel = document.getElementById('attribute');
@@ -361,7 +365,7 @@ lineChartz.prototype.updateVis = function(){
             });
             vis.tip.classed("hidden", false)
                 .attr("style", "left:" + (mouse[0] + 35) + "px;top:" + (mouse[1] + 40) + "px")
-                .html("<span style='color:blue'>" + d[vis.selected] + "</span>");
+                .html("<span style='color:black'><b>" + d[vis.selected] + "</b></span>");
         })
         .on("mouseout", function(d){
             vis.tip.classed("hidden", true);

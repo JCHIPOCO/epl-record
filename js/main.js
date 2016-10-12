@@ -1,19 +1,23 @@
 var fixtureData;
-        
-loadData();
 
-function loadData(){
-    d3.json("js/fixtures.json", function(error, jsonData) {
-        fixtureData = jsonData;
-        for(var i = 0; i < fixtureData.length; i++){
+$.ajax({
+    headers: { 'X-Auth-Token': 'c53d14d63a5b4a91af3d15d83197f6c8' },
+    url: 'http://api.football-data.org/v1/competitions/426/fixtures',
+    dataType: 'json',
+    type: 'GET',
+}).done(function(response) {
+
+    fixtureData = response.fixtures;
+
+    console.log(fixtureData);
+    for(var i = 0; i < fixtureData.length; i++){
             fixtureData[i].unique_id = i+1;
-        }
-        createVis();
-    });
-}
+    }
+    createVis();
+});
 
 function createVis(){
-    intra_season = new lineChartz("chartz", fixtureData);
+    intra_season = new lineChart("chartz", fixtureData);
 }
 
 function updateVars(){
@@ -100,9 +104,3 @@ function unhighlightGame(game_id){
         .attr("stroke","black")
         .attr("stroke-width",".5px");
 }
-
-d3.selection.prototype.moveToFront = function() {  
-      return this.each(function(){
-        this.parentNode.appendChild(this);
-      });
-};

@@ -1,9 +1,23 @@
+@font-face{
+    font-family: "SharpSans";
+    src: url("SharpSans-Font-master/ss-600.otf");
+}
+
+label{
+    color: white;
+    font-size: 15px;
+    font-family: "SharpSans";
+}
+
+h3{
+    font-family: "SharpSans";
+}
+
 .axis path,
 .axis line {
     fill: none;
     stroke: #000;
-    stroke-width: 2; ;
-    /*shape-rendering: crispEdges;*/
+    stroke-width: 2;
 }
 
 .x.axis path {
@@ -28,12 +42,6 @@ path.secondline {
 path{
     stroke: white;
 }
-
-/*text {*/
-    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
-    /*font-size: 10px;*/
-   /*// pointer-events: none;*/
-/*}*/
 
 .info{
     font-size: 20px;
@@ -81,4 +89,30 @@ circle{
     box-shadow: 0px 0px 2px 0px #a6a6a6;
     opacity: 0.9;
     position: absolute;
+}
+
+.hidden{
+    font-weight: bold;
+}
+
+.navbar{
+    padding: 20px 0 20px 0;
+    background: #38003c;
+}
+
+#titleText{
+    font-size:50px;
+    font-family:"SharpSans";
+    font-weight: bold;
+    padding-left: 30px;
+    color: white;
+}
+
+#dropdown{
+    margin-right: 30px;
+    margin-top:8px;
+}
+
+#xlabel{
+    font-family: "SharpSans";
 }
