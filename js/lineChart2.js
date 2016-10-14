@@ -292,7 +292,6 @@ lineChart.prototype.updateVis = function(){
             var active   = vis.line.active ? false : true;
             if(active){
                 unhighlightTeam2(changeName(d.teamName));
-                console.log(changeName(d.teamName));
             }
             else{
                 highlightTeam2(changeName(d.teamName));

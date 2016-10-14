@@ -9,10 +9,10 @@ $.ajax({
 
     fixtureData = response.fixtures;
 
-    console.log(fixtureData);
     for(var i = 0; i < fixtureData.length; i++){
             fixtureData[i].unique_id = i+1;
     }
+
     createVis();
 });
 
@@ -100,7 +100,7 @@ function unhighlightGame(game_id){
 
     intra_season.svg.selectAll("#game"+game_id).transition().duration(1000)
         .attr("r",4)
-        .style("opacity",.6)
+        .style("opacity",1)
         .attr("stroke","black")
         .attr("stroke-width",".5px");
 }

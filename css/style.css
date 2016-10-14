@@ -100,6 +100,15 @@ circle{
     background: #38003c;
 }
 
+.about-modal{
+    font-weight: 900;
+    color: blue;
+}
+
+.start{
+    color:blue;
+}
+
 #titleText{
     font-size:50px;
     font-family:"SharpSans";

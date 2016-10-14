@@ -66,6 +66,37 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <span id="welcome">Welcome to The Premier League Record!</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <h5 class="start">
+                        <span class="about-modal">About the Premier League Record</span>
+                    </h5>
+                    <p>Known as one of the best football leagues in the world, the Premier League produces some of the most dramatic and spectacular stories in sport. This season tracker is meant to visualize those stories as the current season unfolds. Using data from <a href="http://api.football-data.org/index">football-data.org</a>, this tracker plots cumulative totals of different properties found in the fixture data set against the current span of completed matchdays. As we watch the big games on the latest matchday, the Premier League Record helps us keep tabs on the current evolution of the season. With this tool, you can track how well your team is doing, check out dips in form, and even see how the bookies rate your team's chances of winning.</p>
+                    <p></p>
+                    <h5 class="start">
+                        <span class="about-modal">Using this Visualization</span>
+                    </h5>
+                    <p>The graph displays a metric against matchdays. Change metrics using the dropdown filter on the upper right.</p>
+                    <p>Using your mouse, hover around various team plots in the graph. Click on the one of interest. Click on any matchday points that appear to view fixture data on the day of the game. To return to plotting all teams, click on the team lineplot again.</p>
+                    <p>To track one team's statistics, click on the team's lineplot, and change through each metric on the dropdown.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ready to Explore</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -74,5 +105,10 @@
     <script src="js/lineChart2.js"></script>
     <script src="js/nameArray.js"></script>
     <script src="js/teamcolors.js"></script>
+    <script>
+        $(window).load(function(){
+            $("#myModal").modal('show');
+        });
+    </script>
 </body>
 </html>
