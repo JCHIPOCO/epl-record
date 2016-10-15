@@ -2,7 +2,6 @@
  * Created by John on 6/17/16.
  */
 
-
 lineChart = function(_parentElement, _data){
     this.parentElement = _parentElement;
     this.data = _data;
