@@ -72,7 +72,7 @@ lineChart.prototype.wrangleData = function(){
     for (var z = 0; z < vis.finishedFixture.length; z++){
         vis.matchDayArray.push( vis.finishedFixture.filter(function(d){ return d.matchday == z+1;}));
     }
-    
+
     // Initialize displayData array, list of objects with name of team as keys
     vis.displayData = vis.matchDayArray[0].map(awayTeams).concat(vis.matchDayArray[0].map(homeTeams))
                          .sort(function(a, b) {
