@@ -69,22 +69,22 @@ lineChart.prototype.wrangleData = function(){
     vis.d = vis.finishedFixture;
 
     // Reorganize data as fixture lists per matchday
-    for (var z = 0; z < Math.floor(vis.finishedFixture.length/10); z++){
+    for (var z = 0; z < vis.finishedFixture.length; z++){
         vis.matchDayArray.push( vis.finishedFixture.filter(function(d){ return d.matchday == z+1;}));
     }
-
+    
     // Initialize displayData array, list of objects with name of team as keys
     vis.displayData = vis.matchDayArray[0].map(awayTeams).concat(vis.matchDayArray[0].map(homeTeams))
                          .sort(function(a, b) {
                             var textA = a.teamName.toUpperCase();
                             var textB = b.teamName.toUpperCase();
                             return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-                         });
+                        });
 
     // Populate fixture data arrays for each team
     for (var i = 0; i < vis.displayData.length; i++){
         for (var j = 1; j < vis.matchDayArray.length; j++){
-            for (var k = 0; k < (vis.displayData.length/2); k++){
+            for (var k = 0; k < (vis.matchDayArray[j].length); k++){
                 if (vis.displayData[i].teamName == vis.matchDayArray[j][k].awayTeamName){
                     vis.displayData[i].matches.push({
                         date: vis.matchDayArray[j][k].date,
