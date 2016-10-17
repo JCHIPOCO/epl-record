@@ -204,9 +204,9 @@ lineChart.prototype.add_svg_info = function(id) {
         .style("font-size","19px")
         .attr("fill","red");
     vis.svg_info.select("#drawOddsLabel").transition().text("Draw:");
-    // vis.svg_info.select("#drawOdds").text(vis.displayFixture.odds.draw)
-    //     .style("font-size","19px")
-    //     .attr("fill", "red");
+    vis.svg_info.select("#drawOdds").text(vis.displayFixture.odds.draw)
+        .style("font-size","19px")
+        .attr("fill", "red");
 }
 
 lineChart.prototype.updateVis = function(){
