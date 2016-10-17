@@ -2,7 +2,7 @@ var fixtureData;
 
 $.ajax({
     headers: { 'X-Auth-Token': 'c53d14d63a5b4a91af3d15d83197f6c8' },
-    url: 'http://api.football-data.org/v1/competitions/426/fixtures',
+    url: 'https://api.football-data.org/v1/competitions/426/fixtures',
     dataType: 'json',
     type: 'GET',
 }).done(function(response) {
