@@ -8,7 +8,6 @@ $.ajax({
 }).done(function(response) {
 
     fixtureData = response.fixtures;
-    //console.log(fixtureData);
 
     for(var i = 0; i < fixtureData.length; i++){
             fixtureData[i].unique_id = i+1;
