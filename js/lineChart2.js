@@ -61,15 +61,24 @@ lineChart.prototype.wrangleData = function(){
     // Array of arrays initialization
     vis.matchDayArray = [];
 
-    // Filter data with only finished fixtures
-    vis.finishedFixture = vis.data.filter(function(d){ return d.status == "FINISHED";});
+    // Filter data with only finished fixtures and existing odds
+    vis.finishedFixture = vis.data.filter(function(d){ return d.status == "FINISHED" && d.odds !== null;});
+
+    // Filter data with null odds, replace with 0 odds
+    vis.finishedNull = vis.data.filter(function(c){ return c.status == "FINISHED" && c.odds == null});
+    for(var q = 0; q < vis.finishedNull.length; q++){
+        vis.finishedNull[q].odds = {homeWin: 0, draw: 0, awayWin: 0};
+    }
+
+    // Final fixture list
+    vis.finishedFixture = vis.finishedFixture.concat(vis.finishedNull);
 
     // Assign for later use in add_svg_info()
     vis.d = vis.finishedFixture;
 
     // Reorganize data as fixture lists per matchday
-    for (var z = 0; z < vis.finishedFixture.length; z++){
-        vis.matchDayArray.push( vis.finishedFixture.filter(function(d){ return d.matchday == z+1;}));
+    for (var z = 0; z < Math.floor(vis.finishedFixture.length/10); z++){
+        vis.matchDayArray.push(vis.finishedFixture.filter(function(d){ return d.matchday == z+1;}));
     }
 
     // Initialize displayData array, list of objects with name of team as keys
@@ -83,7 +92,7 @@ lineChart.prototype.wrangleData = function(){
     // Populate fixture data arrays for each team
     for (var i = 0; i < vis.displayData.length; i++){
         for (var j = 1; j < vis.matchDayArray.length; j++){
-            for (var k = 0; k < (vis.matchDayArray[j].length); k++){
+            for (var k = 0; k < (vis.displayData.length/2); k++){
                 if (vis.displayData[i].teamName == vis.matchDayArray[j][k].awayTeamName){
                     vis.displayData[i].matches.push({
                         date: vis.matchDayArray[j][k].date,
